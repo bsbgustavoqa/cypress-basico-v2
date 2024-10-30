@@ -28,4 +28,5 @@
     "cy:open": "cypress open",
     "test": "cypress run"
   }
+  
 }
