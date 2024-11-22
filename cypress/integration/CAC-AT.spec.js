@@ -122,12 +122,43 @@ describe("Central de Atendimento ao Cliente TAT", function() {
         })   
     })
 
-    it.only("marca ambos checkboxes, depois desmarca o último", function(){
+    it("marca ambos checkboxes, depois desmarca o último", function(){
       cy.get("input[type='checkbox']")
         .check()
         .last()
         .uncheck()
         .should("not.be.checked")
+    })
+
+    it("seleciona um arquivo da pasta fixtures", function(){
+      cy.get("input[id='file-upload']")
+        .selectFile("cypress/fixtures/example.json")
+        .then(input =>{
+           expect(input[0].files[0].name).to.equals("example.json")
+        })
+
+    })
+
+    it("seleciona um arquivo simulando um drag-and-drop", function(){
+      cy.get("input[id='file-upload']")
+      .selectFile("cypress/fixtures/example.json", {action: "drag-drop"})
+      .then(input =>{
+         expect(input[0].files[0].name).to.equals("example.json")
+      })
+    })
+
+    it("verifica que a política de privacidade abre em outra aba sem a necessidade de um clique", function(){
+      cy.get("#privacy a").should("have.attr", "target", "_blank")
+
+    })
+
+    it.only("testa a página da política de privacidade de forma independente", function(){
+    cy.get("#privacy a")
+    .invoke("removeAttr", "target")
+    .click()
+
+    cy.contains("Talking About Testing").should("be.visible")
+
     })
 
 
